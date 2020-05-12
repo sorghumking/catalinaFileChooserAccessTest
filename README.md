@@ -13,10 +13,10 @@ Tested in Java 8 and 11.
 ### Building
 
 - Download Ant 1.10.7 at [https://ant.apache.org/bindownload.cgi]
-- Exract Ant, add [Ant root]/bin dir to your PATH if desired.
-- Download JarBundler 3.3.0 JAR at [https://github.com/UltraMixer/JarBundler/releases]
+- Extract Ant, add [Ant root]/bin dir to your PATH if desired.
+- Download jarbundler-core-3.3.0.jar at [https://github.com/UltraMixer/JarBundler/releases]
 - Move jarbundler-core-3.3.0.jar to the [Ant root]/lib dir.
-- In CatalinaFileChooserAccessTest dir, run `ant` to compile, and generate an app bundle.
+- In CatalinaFileChooserAccessTest dir, run `ant` to compile and generate app bundle.
 - Run non-bundled via `java`:
   * `cd classes`
   * `java org.csdco.CatalinaFileChooserAccessTest`
