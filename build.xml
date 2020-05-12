@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- Ant script to build CatalinaFileChooserAccessTest, based on JarBuilder example
+     https://github.com/UltraMixer/JarBundler/blob/master/examples/build.xml -->
+
+<project name="CatalinaFileChooserAccessTest" default="simple" basedir=".">
+
+    <property name="version" value="1.0"/>
+
+    <tstamp>
+        <format property="this_year" pattern="yyyy"/>
+    </tstamp>
+
+    <property name="copyright" value="Copyright &#xa9; ${this_year} LacCore/CSDCO"/>
+
+
+    <target name="compile" description="Compile the classes">
+        <mkdir dir="classes"/>
+        <javac srcdir="src/main/java" destdir="classes" deprecation="on" verbose="on" source="8" />
+    </target>
+
+
+    <target name="jar" depends="compile" description="Create JAR file">
+        <mkdir dir="build"/>
+        <jar jarfile="build/${ant.project.name}.jar" basedir="classes"/>
+    </target>
+
+    <!-- Create a simple application to see if all the bits came together properly -->
+
+    <target name="simple" depends="jar" description="Build an example application">
+
+        <taskdef name="jarbundler"
+                 classname="com.ultramixer.jarbundler.JarBundler"/>
+
+        <jarbundler dir="${basedir}" verbose="true" showPlist="true"
+                    name="${ant.project.name}"
+                    mainclass="org.csdco.CatalinaFileChooserAccessTest"
+                    jar="build/${ant.project.name}.jar"
+                    version="${version}"
+                    copyright="${copyright}"
+                    jvmversion="1.8+"
+                    stubfile="universalJavaApplicationStub" />
+    </target>
+
+    <target name="clean" description="Clean up anything we can't rebuild">
+        <delete dir="${ant.project.name}.app" quiet="true"/>
+        <delete dir="build" quiet="true"/>
+        <delete dir="classes" quiet="true"/>
+    </target>
+
+</project>
