@@ -4,6 +4,8 @@ dirs are accessible through FileDialog, which appears to use the native macOS ch
 The expected system dialog "CatalinaFileChooserAccessTest.app would like to access the 
 [folder name] folder" does not appear in JFileChooser, thus access cannot be granted.
 
+![demo GIF](https://github.com/sorghumking/catalinaFileChooserAccessTest/blob/master/img/chooserAccessDemo.gif)
+
 These dirs are accessible from both dialogs when built and run locally.
 
 The problem manifests only when packaged as an app bundle.
