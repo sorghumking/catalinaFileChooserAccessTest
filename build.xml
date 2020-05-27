@@ -3,7 +3,7 @@
 <!-- Ant script to build CatalinaFileChooserAccessTest, based on JarBuilder example
      https://github.com/UltraMixer/JarBundler/blob/master/examples/build.xml -->
 
-<project name="CatalinaFileChooserAccessTest" default="simple" basedir=".">
+<project name="CatalinaFileChooserAccessTest" basedir=".">
 
     <property name="version" value="1.0"/>
 
@@ -25,26 +25,54 @@
         <jar jarfile="build/${ant.project.name}.jar" basedir="classes"/>
     </target>
 
-    <!-- Create a simple application to see if all the bits came together properly -->
 
-    <target name="simple" depends="jar" description="Build an example application">
-
+    <target name="jarbundler" depends="jar" description="Bundle app with Jar Bundler and universalJavaApplicationStub">
+        <mkdir dir="build_jarbundler"/>
         <taskdef name="jarbundler"
                  classname="com.ultramixer.jarbundler.JarBundler"/>
 
-        <jarbundler dir="${basedir}" verbose="true" showPlist="true"
+        <jarbundler dir="build_jarbundler" verbose="true" showPlist="true"
                     name="${ant.project.name}"
                     mainclass="org.csdco.CatalinaFileChooserAccessTest"
                     jar="build/${ant.project.name}.jar"
                     version="${version}"
+                    bundleid="org.csdco.CatalinaFileChooserAccessTest"
                     copyright="${copyright}"
                     jvmversion="1.8+"
                     stubfile="universalJavaApplicationStub" />
     </target>
 
+    <target name="appbundler" depends="jar" description="Bundle app with Oracle Appbundler and provided, compiled application stub">
+        <mkdir dir="build_appbundler"/>
+        <taskdef name="bundleapp" 
+            classname="com.oracle.appbundler.AppBundlerTask"/>
+        <bundleapp 
+            jvmrequired="1.8"
+            outputdirectory="build_appbundler"
+            workingdirectory="$APP_ROOT/Contents/"
+            name="CatalinaFileChooserAccessTest"
+            displayname="CatalinaFileChooserAccessTest"
+            executableName="MyApp"
+            shortversion="${version}"
+            version="${version}"
+            identifier="org.csdco.CatalinaFileChooserAccessTest"
+            mainclassname="org.csdco.CatalinaFileChooserAccessTest"
+            copyright="${copyright}"
+            highResolutionCapable="true"
+            supportsAutomaticGraphicsSwitching="true"
+            ignorePSN="true"
+            debug="true">
+            <classpath file="build/CatalinaFileChooserAccessTest.jar" />
+            <librarypath file="build/CatalinaFileChooserAccessTest.jar" />
+            <option value="-Dapple.laf.useScreenMenuBar=true" />
+        </bundleapp>
+    </target>
+
     <target name="clean" description="Clean up anything we can't rebuild">
         <delete dir="${ant.project.name}.app" quiet="true"/>
         <delete dir="build" quiet="true"/>
+        <delete dir="build_jarbundler" quiet="true"/>
+        <delete dir="build_appbundler" quiet="true"/>
         <delete dir="classes" quiet="true"/>
     </target>
 
